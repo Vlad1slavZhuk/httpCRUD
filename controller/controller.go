@@ -21,11 +21,22 @@ func FormAdd(w http.ResponseWriter, r *http.Request) {
 
 func CreateCar(w http.ResponseWriter, r *http.Request) {
 	var car model.Car
-
-	if len(mux.Vars(r)) != 0 {
+	if r.Method == http.MethodGet {
+		err := json.NewDecoder(r.Body).Decode(&car)
+		if err != nil {
+			fmt.Fprintln(w, err)
+		}
+		fmt.Fprint(w, car)
+		model.AddCar(&car)
+	}
+	if r.Method == http.MethodPost {
 		m := r.FormValue("model")
 		color := r.FormValue("color")
 		price, _ := strconv.ParseFloat(r.FormValue("price"), 64)
+		if m == "" || color == "" || price == 0 {
+			fmt.Fprint(w, "Error.")
+			return
+		}
 		car = model.Car{
 			Model: m,
 			Color: color,
@@ -33,11 +44,8 @@ func CreateCar(w http.ResponseWriter, r *http.Request) {
 		}
 		model.AddCar(&car)
 		fmt.Fprint(w, "Add a new car.")
-	} else {
-		fmt.Fprint(w, "Error.")
 	}
 	//TODO add decode json
-
 }
 
 func DeleteCar(w http.ResponseWriter, r *http.Request) {

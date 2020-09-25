@@ -31,7 +31,7 @@ func GetCar(id uint64) (*Car, bool) {
 }
 
 func AddCar(car *Car) {
-	lastID := uint64(len(cars))
+	lastID := uint64(len(cars) + 1)
 	cars[lastID] = car
 }
 
