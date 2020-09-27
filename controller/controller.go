@@ -7,12 +7,12 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Vlad1slavZhuk/httpCRUD/model"
+	"github.com/Vlad1slavZhuk/httpCRUD/data"
 	"github.com/gorilla/mux"
 )
 
 func Hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello World!")
+	fmt.Fprintf(w, "\nHello World!")
 }
 
 func FormAdd(w http.ResponseWriter, r *http.Request) {
@@ -20,40 +20,44 @@ func FormAdd(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateCar(w http.ResponseWriter, r *http.Request) {
-	var car model.Car
+	var car data.Car
 	if r.Method == http.MethodGet {
-		err := json.NewDecoder(r.Body).Decode(&car)
+		err := car.FromJSON(r.Body)
+		//err := json.NewDecoder(r.Body).Decode(&car)
 		if err != nil {
-			fmt.Fprintln(w, err)
+			http.Error(w, "Wrong data.", http.StatusBadRequest)
+			return
 		}
 		fmt.Fprint(w, car)
-		model.AddCar(&car)
+		data.AddCar(&car)
 	}
 	if r.Method == http.MethodPost {
 		m := r.FormValue("model")
 		color := r.FormValue("color")
 		price, _ := strconv.ParseFloat(r.FormValue("price"), 64)
 		if m == "" || color == "" || price == 0 {
-			fmt.Fprint(w, "Error.")
+			http.Error(w, "Wrong data.", http.StatusBadRequest)
 			return
 		}
-		car = model.Car{
+		car = data.Car{
 			Model: m,
 			Color: color,
 			Price: price,
 		}
-		model.AddCar(&car)
+		data.AddCar(&car)
 		fmt.Fprint(w, "Add a new car.")
 	}
-	//TODO add decode json
 }
 
 func DeleteCar(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	id, _ := strconv.ParseUint(vars["id"], 10, 64)
-	ok := model.DeleteCar(id)
+	id, err := strconv.ParseUint(vars["id"], 10, 64)
+	if err != nil {
+		http.Error(w, "Error in ParseUint.", http.StatusInternalServerError)
+	}
+	ok := data.DeleteCar(id)
 	if !ok {
-		fmt.Fprint(w, "Error.")
+		http.Error(w, "Not found and already deleted.", http.StatusInternalServerError)
 	} else {
 		fmt.Fprint(w, "Delete a car!")
 	}
@@ -61,18 +65,19 @@ func DeleteCar(w http.ResponseWriter, r *http.Request) {
 
 func UpdateCar(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Update a car!")
+	//TODO
 }
 
 func GetListCars(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	if len(model.GetListCars()) == 0 {
-		fmt.Fprintf(w, "null")
+	if len(data.GetListCars()) == 0 {
+		http.Error(w, "List of cars is empty.", http.StatusBadRequest)
 	} else {
-		json, err := json.MarshalIndent(model.GetListCars(), "", "   ")
+		list, err := json.MarshalIndent(data.GetListCars(), "", "   ")
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Fprint(w, string(json))
+		w.Write(list)
 	}
 }
 
@@ -80,13 +85,13 @@ func GetCar(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, _ := strconv.Atoi(vars["id"])
 	w.Header().Set("Content-Type", "application/json")
-	if car, ok := model.GetCar(uint64(id)); ok {
+	if car, ok := data.GetCar(uint64(id)); ok {
 		c, err := json.MarshalIndent(car, "", "   ")
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Fprint(w, string(c))
+		fmt.Fprint(w, "\n"+string(c))
 	} else {
-		fmt.Fprint(w, "Not found.")
+		fmt.Fprint(w, "\nNot found.")
 	}
 }
