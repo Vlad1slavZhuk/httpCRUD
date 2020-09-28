@@ -23,28 +23,31 @@ func CreateCar(w http.ResponseWriter, r *http.Request) {
 	var car data.Car
 	if r.Method == http.MethodGet {
 
-		//err := json.NewDecoder(r.Body).Decode(&car)
 		if err := car.FromJSON(r.Body); err != nil {
 			http.Error(w, "Wrong data.", http.StatusBadRequest)
 			return
 		}
-		data.AddCar(&car)
+
+		if ok := data.AddCar(&car); !ok {
+			http.Error(w, "Wrong data.", http.StatusBadRequest)
+			return
+		}
+
 		fmt.Fprint(w, "Add a new car.")
 	}
 	if r.Method == http.MethodPost {
 		m := r.FormValue("model")
 		color := r.FormValue("color")
 		price, _ := strconv.ParseFloat(r.FormValue("price"), 64)
-		if m == "" || color == "" || price == 0 {
-			http.Error(w, "Wrong data.", http.StatusBadRequest)
-			return
-		}
 		car = data.Car{
 			Model: m,
 			Color: color,
 			Price: price,
 		}
-		data.AddCar(&car)
+		if ok := data.AddCar(&car); !ok {
+			http.Error(w, "Wrong data.", http.StatusBadRequest)
+			return
+		}
 		fmt.Fprint(w, "Add a new car.")
 	}
 }
@@ -57,15 +60,13 @@ func DeleteCar(w http.ResponseWriter, r *http.Request) {
 	}
 	ok := data.DeleteCar(id)
 	if !ok {
-		http.Error(w, "Not found and already deleted.", http.StatusInternalServerError)
+		http.Error(w, "Not found and already deleted.", http.StatusNotFound)
 	} else {
 		fmt.Fprint(w, "Delete a car!")
 	}
 }
 
 func UpdateCar(w http.ResponseWriter, r *http.Request) {
-
-	//TODO
 	var car data.Car
 	vars := mux.Vars(r)
 

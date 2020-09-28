@@ -21,7 +21,7 @@
 Send [**Any Protocol HTTP**] with Body - raw `JSON` format.  
 Example:
 
-``` json
+``` json5
 {
     model: "Volvo",
     color: "red",

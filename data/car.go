@@ -53,9 +53,15 @@ func GetCar(id uint64) (*Car, bool) {
 }
 
 //TODO
-func AddCar(car *Car) {
+func AddCar(car *Car) bool {
 	lastID := uint64(len(cars) + 1)
+
+	if car.Model == "" || car.Color == "" || car.Price == 0.0 {
+		return false
+	}
+
 	cars[lastID] = car
+	return true
 }
 
 //TODO
