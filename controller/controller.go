@@ -22,9 +22,9 @@ func FormAdd(w http.ResponseWriter, r *http.Request) {
 func CreateCar(w http.ResponseWriter, r *http.Request) {
 	var car data.Car
 	if r.Method == http.MethodGet {
-		err := car.FromJSON(r.Body)
+
 		//err := json.NewDecoder(r.Body).Decode(&car)
-		if err != nil {
+		if err := car.FromJSON(r.Body); err != nil {
 			http.Error(w, "Wrong data.", http.StatusBadRequest)
 			return
 		}
@@ -64,8 +64,26 @@ func DeleteCar(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateCar(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Update a car!")
+
 	//TODO
+	var car data.Car
+	if r.Method == http.MethodPut {
+		vars := mux.Vars(r)
+
+		id, err := strconv.ParseUint(vars["id"], 10, 64)
+		if err != nil {
+			http.Error(w, "Wrong data.", http.StatusBadRequest)
+			return
+		}
+
+		if err := car.FromJSON(r.Body); err != nil {
+			http.Error(w, "Wrong data.", http.StatusBadRequest)
+			return
+		}
+
+		data.UpdateCar(id, &car)
+		fmt.Fprintf(w, "Update a car!")
+	}
 }
 
 func GetListCars(w http.ResponseWriter, r *http.Request) {

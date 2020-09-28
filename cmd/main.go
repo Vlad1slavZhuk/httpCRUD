@@ -20,7 +20,7 @@ func main() {
 	r.HandleFunc("/car/add", handler.CreateCar).Methods(http.MethodPost, http.MethodGet)
 	r.HandleFunc("/cars", handler.GetListCars).Methods(http.MethodGet)
 	r.HandleFunc("/cars/{id:[0-9]+}", handler.GetCar).Methods(http.MethodGet)
-	r.HandleFunc("/cars/{id:[0-9]+}", handler.UpdateCar).Methods(http.MethodPut, http.MethodPatch)
+	r.HandleFunc("/cars/{id:[0-9]+}", handler.UpdateCar).Methods(http.MethodPut)
 	r.HandleFunc("/cars/{id:[0-9]+}", handler.DeleteCar).Methods(http.MethodDelete)
 
 	//log.Fatal(http.ListenAndServe(":8081", r))
