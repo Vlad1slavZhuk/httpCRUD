@@ -28,8 +28,8 @@ func CreateCar(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Wrong data.", http.StatusBadRequest)
 			return
 		}
-		fmt.Fprint(w, car)
 		data.AddCar(&car)
+		fmt.Fprint(w, "Add a new car.")
 	}
 	if r.Method == http.MethodPost {
 		m := r.FormValue("model")
