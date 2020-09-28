@@ -67,23 +67,21 @@ func UpdateCar(w http.ResponseWriter, r *http.Request) {
 
 	//TODO
 	var car data.Car
-	if r.Method == http.MethodPut {
-		vars := mux.Vars(r)
+	vars := mux.Vars(r)
 
-		id, err := strconv.ParseUint(vars["id"], 10, 64)
-		if err != nil {
-			http.Error(w, "Wrong data.", http.StatusBadRequest)
-			return
-		}
-
-		if err := car.FromJSON(r.Body); err != nil {
-			http.Error(w, "Wrong data.", http.StatusBadRequest)
-			return
-		}
-
-		data.UpdateCar(id, &car)
-		fmt.Fprintf(w, "Update a car!")
+	id, err := strconv.ParseUint(vars["id"], 10, 64)
+	if err != nil {
+		http.Error(w, "Wrong data.", http.StatusBadRequest)
+		return
 	}
+
+	if err := car.FromJSON(r.Body); err != nil {
+		http.Error(w, "Wrong data.", http.StatusBadRequest)
+		return
+	}
+
+	data.UpdateCar(id, &car)
+	fmt.Fprintf(w, "Update a car!")
 }
 
 func GetListCars(w http.ResponseWriter, r *http.Request) {

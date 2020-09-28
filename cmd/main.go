@@ -20,7 +20,7 @@ func main() {
 	r.HandleFunc("/car/add", handler.CreateCar).Methods(http.MethodPost, http.MethodGet)
 	r.HandleFunc("/cars", handler.GetListCars).Methods(http.MethodGet)
 	r.HandleFunc("/cars/{id:[0-9]+}", handler.GetCar).Methods(http.MethodGet)
-	r.HandleFunc("/cars/{id:[0-9]+}", handler.UpdateCar).Methods(http.MethodPut)
+	r.HandleFunc("/cars/{id:[0-9]+}", handler.UpdateCar).Methods(http.MethodPut, http.MethodPatch)
 	r.HandleFunc("/cars/{id:[0-9]+}", handler.DeleteCar).Methods(http.MethodDelete)
 
 	//log.Fatal(http.ListenAndServe(":8081", r))
@@ -30,7 +30,6 @@ func main() {
 		Handler:      r,                 // set the default handler
 		ReadTimeout:  5 * time.Second,   // max time to read request from the client
 		WriteTimeout: 10 * time.Second,  // max time to write response to the client
-		IdleTimeout:  120 * time.Second, // max time for connections using TCP Keep-Alive
 	}
 
 	// start server
