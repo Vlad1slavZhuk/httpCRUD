@@ -1,4 +1,11 @@
-package handlers
+package controller
+
+import (
+	"fmt"
+	"github.com/Vlad1slavZhuk/httpCRUD/data"
+	"net/http"
+	"strconv"
+)
 
 func FormAdd(w http.ResponseWriter, r *http.Request) {
 	r.Header.Set("Content-type", "application/x-www-form-urlencoded")

@@ -1,4 +1,12 @@
-package handlers
+package controller
+
+import (
+	"fmt"
+	"github.com/Vlad1slavZhuk/httpCRUD/data"
+	"github.com/gorilla/mux"
+	"net/http"
+	"strconv"
+)
 
 func UpdateCar(w http.ResponseWriter, r *http.Request) {
 	var car data.Car
