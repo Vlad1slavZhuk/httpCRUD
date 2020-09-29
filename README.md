@@ -7,6 +7,7 @@ The usual way to start:
 ``` 
 go run cmd/main.go
 ```
+---
 
 #### `http://localhost:[port]/`  
 Load page `add.html` that is in the folder `template`.
