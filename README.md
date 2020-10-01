@@ -3,8 +3,7 @@
 This web server handles requests (GET, POST, PUT, PATCH, DELETE) to the routing API.
 
 ## How to start HTTP server:  
-### Makefile  
-Command:  
+### Makefile
 
 **Simple:**  
 `make help` - Show list commands.  
