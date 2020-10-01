@@ -5,7 +5,18 @@ import (
 	server "github.com/Vlad1slavZhuk/httpCRUD/data"
 	"github.com/gorilla/mux"
 	"net/http"
+	"os"
 )
+
+var port string
+
+func init() {
+	port = os.Getenv("PORT")
+
+	if port == "" {
+		panic("Set port!")
+	}
+}
 
 func main() {
 	r := mux.NewRouter()
@@ -23,7 +34,7 @@ func main() {
 	r.HandleFunc("/cars/{id:[0-9]+}", handler.DeleteCar).Methods(http.MethodDelete)
 
 	// create a new server
-	s := server.NewServer(r)
+	s := server.NewServer(r,":"+port)
 
 	// start server
 	go server.Run(s)
