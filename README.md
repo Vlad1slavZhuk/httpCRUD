@@ -16,7 +16,8 @@ Command:
 `make docker` -  Build and Run image `server` (dependence `docker-build`, `docker-up`)  
 `make docker-build` - Build image with name `server`.  
 `make docker-up` - Start image `server`.  
-`make docker-clean` - Clean image. Run two commands `docker system prune` and `docker rmi -f server`.
+`make docker-clean` - Clean image. Run two commands `docker system prune` and `docker rmi -f server`.  
+
 ---
 
 #### `http://localhost:[port]/`  
