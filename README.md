@@ -2,11 +2,21 @@
 
 This web server handles requests (GET, POST, PUT, PATCH, DELETE) to the routing API.
 
-### How to start HTTP server:  
-The usual way to start:
-``` 
-go run cmd/main.go
-```
+## How to start HTTP server:  
+### Makefile  
+Command:  
+
+**Simple:**  
+`make help` - Show list commands.  
+`make build` - Create `server.exe`.  
+`make start` - Create and Run `server.exe`. (dependence `build`)  
+`make clean` - Remove `server.exe`.  
+
+**Docker**  
+`make docker` -  Build and Run image `server` (dependence `docker-build`, `docker-up`)  
+`make docker-build` - Build image with name `server`.  
+`make docker-up` - Start image `server`.  
+`make docker-clean` - Clean image. Run two commands `docker system prune` and `docker rmi -f server`.
 ---
 
 #### `http://localhost:[port]/`  

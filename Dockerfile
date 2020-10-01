@@ -1,13 +1,10 @@
 FROM golang:alpine AS builder
 LABEL maintainer="Vladyslav Zhuchkov"
-WORKDIR /source
-COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -o server /source/cmd/main.go
-
-EXPOSE 8081
+WORKDIR /app
+COPY . /app/
+RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -o server /app/cmd/main.go
 
 FROM alpine
-WORKDIR /root
-COPY --from=builder /source/server .
-CMD [./server]
-
+WORKDIR /app
+COPY --from=builder /app/server .
+CMD ["./server"]
