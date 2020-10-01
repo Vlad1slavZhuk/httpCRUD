@@ -21,3 +21,9 @@ clean:
 help: Makefile
 	@echo "Choose a command run in "httpCRUD":"
 	@sed -n 's/^##//p' $< | column -t -s ':' | sed -e 's/^/ /'
+dr-build:
+	@echo "> Build image"
+	@sudo docker build -t server .
+dr-up:	
+	@echo "> Docker start"
+	@sudo docker run -d --rm --env-file ./.env --name httpServer -p $(PORT):$(PORT) server
