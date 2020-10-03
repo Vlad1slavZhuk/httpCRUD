@@ -19,21 +19,25 @@ func GetListCars(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		w.Write(list)
+		fmt.Fprint(w, string(list))
 	}
 }
 
 func GetCar(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	id, _ := strconv.Atoi(vars["id"])
+	id, err := strconv.ParseUint(vars["id"], 10, 64)
+	if err != nil {
+		http.Error(w, "ID parsing error.", http.StatusBadRequest)
+		return
+	}
 	w.Header().Set("Content-Type", "application/json")
-	if car, ok := data.GetCar(uint64(id)); ok {
+	if car, ok := data.GetCar(id); ok {
 		c, err := json.MarshalIndent(car, "", "   ")
 		if err != nil {
 			log.Fatal(err)
 		}
 		fmt.Fprint(w, string(c))
 	} else {
-		fmt.Fprint(w, "Not found.")
+		http.Error(w, "Not Found.", http.StatusBadRequest)
 	}
 }

@@ -25,28 +25,28 @@ clean:
 
 # DOCKER----------------------------------------------------------------------------------
 ## docker: call 2 commands - "docker-build", "docker-up"
-docker: dr-up
+docker: docker-up
 
 ## dr-build: Build docker image with name "server"
 docker-build:
 	@echo "***** Build image *****"
-	@sudo docker build -t server .
+	@docker build -t server .
 	@echo "***** Building SUCCESS! *****"
 
 ## dr-up: Docker run image - server
 docker-up: dr-build
 	@echo "***** Docker start *****"
 	@echo "LINK -> http://localhost:$(PORT) <-"
-	@sudo docker run --rm --env-file ./.env --name httpServer -p $(PORT):$(PORT) server
+	@docker run --rm --env-file ./.env --name httpServer -p $(PORT):$(PORT) server
 
 ## docker-clean: Delete server image
 docker-clean:
 	@echo "***** Clean docker image *****"
 	@echo ">>> 1) docker system prune"
-	sudo docker system prune
+	docker system prune
 	@echo "***** SUCCESS *****"
 	@echo ">>> 2) docker rmi -f server"
-	sudo docker rmi -f server
+	docker rmi -f server
 	@echo "***** SUCCESS *****"
 	@echo "Cleared!"
 # DOCKER ---------------------------------------------------------------------------------	

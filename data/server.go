@@ -20,7 +20,7 @@ func NewServer(r *mux.Router, port string) *http.Server {
 }
 
 func Run(s *http.Server) {
-	log.Println("Starting server on port 8081")
+	log.Println("Starting server on port", s.Addr)
 
 	err := s.ListenAndServe()
 	if err != nil {

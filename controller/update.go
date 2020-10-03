@@ -14,15 +14,20 @@ func UpdateCar(w http.ResponseWriter, r *http.Request) {
 
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
-		http.Error(w, "Wrong data.", http.StatusBadRequest)
+		http.Error(w, "ID parsing error.", http.StatusBadRequest)
 		return
 	}
 
 	if err := car.FromJSON(r.Body); err != nil {
-		http.Error(w, "Wrong data.", http.StatusBadRequest)
+		http.Error(w, "Error retrieving data from JSON.", http.StatusBadRequest)
 		return
 	}
 
-	data.UpdateCar(id, &car)
-	fmt.Fprintf(w, "Update a car!")
+	if ok := data.UpdateCar(id, &car); !ok {
+		http.Error(w, "Data update error.", http.StatusBadRequest)
+	} else {
+		fmt.Fprintf(w, "(JSON) ID %v UPDATED!", id)
+	}
+
+
 }

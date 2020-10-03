@@ -7,7 +7,7 @@ import (
 )
 
 type Car struct {
-	//Brand string  `json:"brand"`
+	Brand string  `json:"brand"`
 	Model string  `json:"model"`
 	Color string  `json:"color"`
 	Price float64 `json:"price"`
@@ -17,12 +17,14 @@ type Car struct {
 var (
 	cars = map[uint64]*Car{
 		1: {
-			Model: "Mazda CX-5",
+			Brand: "Mazda",
+			Model: "CX-5",
 			Color: "Aqua",
 			Price: 25000.00,
 		},
 		2: {
-			Model: "Aston Martin One 77",
+			Brand: "Aston Martin",
+			Model: "One 77",
 			Color: "Space Grey",
 			Price: 80000.50,
 		},
@@ -67,7 +69,7 @@ func AddCar(car *Car) bool {
 	defer rwm.Unlock()
 	lastID := uint64(len(cars) + 1)
 
-	if car.Model == "" || car.Color == "" || car.Price == 0.0 {
+	if car.Brand == "" || car.Model == "" || car.Color == "" || car.Price == 0.0 {
 		return false
 	}
 
