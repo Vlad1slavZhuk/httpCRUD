@@ -3,9 +3,6 @@
 This web server handles requests (GET, POST, PUT, DELETE) to the routing API.
 
 ## How to start HTTP server:  
-### Windows:
-
-
 ### Makefile:  
 `make help` - Show list commands.  
 `make build` - Create `server.exe`.  
