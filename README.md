@@ -20,6 +20,7 @@ This web server handles requests (GET, POST, PUT, DELETE) to the routing API.
 #### `http://localhost:[port]/`  
 Load page `add.html` that is in the folder `template`.
 
+---
 #### `http://localhost:[port]/car` (GET, POST)
 Loads the page of form `add.html`. After filling out the form, add to the list of cars.
 ##### Request `GET`:
@@ -38,7 +39,7 @@ In app `Postman` in tab `Body`, press `raw` and write data in `JSON` format. Aft
     "price": 120000
 }
 ```
-
+---
 #### `http://localhost:[port]/cars` (GET)  
 Return in `JSON` format list cars. In my example:
 
@@ -59,6 +60,7 @@ Return in `JSON` format list cars. In my example:
    }
 }
 ```
+---
 #### `http://localhost:[port]/cars/{id:[0-9]+}` (GET)
 Return in `JSON` format found car. In my example:  
 
@@ -71,7 +73,7 @@ Return in `JSON` format found car. In my example:
    "price": 25000
 }
 ```
-
+---
 #### `http://localhost:[port]/cars/{id:[0-9]+}` (PUT)
 Updates vehicle data.  
 
@@ -104,8 +106,7 @@ We updated data:
     }
 }
 ```
-
-
+---
 #### `http://localhost:[port]/cars/{id:[0-9]+}` (DELETE)
 Removes a car from the list by `ID`. In my Example.
 
