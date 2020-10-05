@@ -21,22 +21,21 @@ func init() {
 func main() {
 	r := mux.NewRouter()
 
-	//load page add.html
+	//Load page add.html
 	r.HandleFunc("/", handler.FormAdd)
 	//GET
 	r.HandleFunc("/cars", handler.GetListCars).Methods(http.MethodGet)
 	r.HandleFunc("/cars/{id:[0-9]+}", handler.GetCar).Methods(http.MethodGet)
 	//POST
 	r.HandleFunc("/car", handler.CreateCar).Methods(http.MethodPost, http.MethodGet)
-	//PUT / PATCH
+	//PUT
 	r.HandleFunc("/cars/{id:[0-9]+}", handler.UpdateCar).Methods(http.MethodPut)
 	//DELETE
 	r.HandleFunc("/cars/{id:[0-9]+}", handler.DeleteCar).Methods(http.MethodDelete)
 
-	// create a new server
+	// Create a new server
 	s := server.NewServer(r,":"+port)
 
-	// start server
+	// Start server
 	go server.Run(s)
-	server.Shutdown(s)
 }

@@ -3,6 +3,7 @@ package controller
 import (
 	"fmt"
 	"github.com/Vlad1slavZhuk/httpCRUD/data"
+	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -18,10 +19,12 @@ func init() {
 }
 
 func FormAdd(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%v %v %v\n", r.RemoteAddr, r.Method, r.URL)
 	http.ServeFile(w, r, "template/add.html")
 }
 
 func CreateCar(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%v %v %v\n", r.RemoteAddr, r.Method, r.URL)
 	if r.Method == http.MethodGet {
 		http.Redirect(w, r, "http://localhost:"+port+"/", http.StatusMovedPermanently)
 	}

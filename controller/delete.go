@@ -4,11 +4,13 @@ import (
 	"fmt"
 	"github.com/Vlad1slavZhuk/httpCRUD/data"
 	"github.com/gorilla/mux"
+	"log"
 	"net/http"
 	"strconv"
 )
 
 func DeleteCar(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%v %v %v\n", r.RemoteAddr, r.Method, r.URL)
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {

@@ -4,11 +4,13 @@ import (
 	"fmt"
 	"github.com/Vlad1slavZhuk/httpCRUD/data"
 	"github.com/gorilla/mux"
+	"log"
 	"net/http"
 	"strconv"
 )
 
 func UpdateCar(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%v %v %v\n", r.RemoteAddr, r.Method, r.URL)
 	var car data.Car
 	vars := mux.Vars(r)
 

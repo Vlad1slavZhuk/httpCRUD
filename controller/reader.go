@@ -11,6 +11,7 @@ import (
 )
 
 func GetListCars(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%v %v %v\n", r.RemoteAddr, r.Method, r.URL)
 	w.Header().Set("Content-Type", "application/json")
 	if len(data.GetListCars()) == 0 {
 		http.Error(w, "List of cars is empty.", http.StatusBadRequest)
@@ -24,6 +25,7 @@ func GetListCars(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetCar(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%v %v %v\n", r.RemoteAddr, r.Method, r.URL)
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {

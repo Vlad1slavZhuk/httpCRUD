@@ -13,7 +13,7 @@ type Car struct {
 	Price float64 `json:"price"`
 }
 
-//For Test
+//For Test - add 2 car.
 var (
 	cars = map[uint64]*Car{
 		1: {
@@ -32,14 +32,12 @@ var (
 	rwm sync.Mutex
 )
 
-//TODO
 // ToJSON serializes.
 func (c *Car) ToJSON(w io.Writer) error {
 	e := json.NewEncoder(w)
 	return e.Encode(c)
 }
 
-//TODO
 // FromJSON deserializes.
 func (c *Car) FromJSON(r io.Reader) error {
 	e := json.NewDecoder(r)
@@ -53,7 +51,9 @@ func GetListCars() map[uint64]*Car {
 	return cars
 }
 
-// GetCar returns the specified number from the cars list.
+// GetCar - returns the specified number from the cars list.
+//
+// If ok - return car[id], true. Otherwise - return nil, false
 func GetCar(id uint64) (*Car, bool) {
 	rwm.Lock()
 	defer rwm.Unlock()
@@ -63,7 +63,9 @@ func GetCar(id uint64) (*Car, bool) {
 	return nil, false
 }
 
-//TODO
+// AddCar - add Car
+//
+// If empty data - return false. Otherwise - return true
 func AddCar(car *Car) bool {
 	rwm.Lock()
 	defer rwm.Unlock()
@@ -77,7 +79,7 @@ func AddCar(car *Car) bool {
 	return true
 }
 
-//TODO
+// DeleteCar - deletes car by ID
 func DeleteCar(id uint64) bool {
 	rwm.Lock()
 	defer rwm.Unlock()
@@ -88,7 +90,7 @@ func DeleteCar(id uint64) bool {
 	return true
 }
 
-//TODO
+// UpdateCar - update car by ID
 func UpdateCar(id uint64, c *Car) bool {
 	rwm.Lock()
 	defer rwm.Unlock()

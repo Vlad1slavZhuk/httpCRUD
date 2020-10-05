@@ -10,6 +10,7 @@ import (
 	"time"
 )
 
+// NewServer - create and return new server.
 func NewServer(r *mux.Router, port string) *http.Server {
 	return &http.Server{
 		Addr:         port,          // configure the bind address
@@ -19,6 +20,7 @@ func NewServer(r *mux.Router, port string) *http.Server {
 	}
 }
 
+// Run - start server.
 func Run(s *http.Server) {
 	log.Println("Starting server on port", s.Addr)
 
@@ -27,8 +29,10 @@ func Run(s *http.Server) {
 		log.Printf("Error starting server: %s\n", err)
 		os.Exit(1)
 	}
-}
 
+	Shutdown(s)
+}
+// Shutdown - shutdown server after get signal - "Interrupt"
 func Shutdown(s *http.Server) {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
@@ -41,5 +45,8 @@ func Shutdown(s *http.Server) {
 
 	// gracefully shutdown the server, waiting max 30 seconds for current operations to complete
 	ctx, _ := context.WithTimeout(context.Background(), 30*time.Second)
-	s.Shutdown(ctx)
+
+	if err := s.Shutdown(ctx); err != nil {
+		log.Printf("HTTP server Shutdown: %v", err)
+	}
 }
