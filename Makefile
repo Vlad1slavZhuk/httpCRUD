@@ -34,7 +34,7 @@ docker-build:
 	@echo "***** Building SUCCESS! *****"
 
 ## dr-up: Docker run image - server
-docker-up: dr-build
+docker-up: docker-build
 	@echo "***** Docker start *****"
 	@echo "LINK -> http://localhost:$(PORT) <-"
 	@docker run --rm --env-file ./.env --name httpServer -p $(PORT):$(PORT) server
