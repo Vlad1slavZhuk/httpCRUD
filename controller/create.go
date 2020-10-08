@@ -2,11 +2,12 @@ package controller
 
 import (
 	"fmt"
-	"github.com/Vlad1slavZhuk/httpCRUD/data"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
+
+	"github.com/Vlad1slavZhuk/httpCRUD/data"
 )
 
 var port string
@@ -14,7 +15,7 @@ var port string
 func init() {
 	port = os.Getenv("PORT")
 	if port == "" {
-		 panic("Set port!")
+		panic("Set port!")
 	}
 }
 

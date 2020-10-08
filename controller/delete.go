@@ -2,11 +2,12 @@ package controller
 
 import (
 	"fmt"
-	"github.com/Vlad1slavZhuk/httpCRUD/data"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/Vlad1slavZhuk/httpCRUD/data"
+	"github.com/gorilla/mux"
 )
 
 func DeleteCar(w http.ResponseWriter, r *http.Request) {

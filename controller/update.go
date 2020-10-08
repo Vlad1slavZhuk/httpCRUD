@@ -2,13 +2,15 @@ package controller
 
 import (
 	"fmt"
-	"github.com/Vlad1slavZhuk/httpCRUD/data"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/Vlad1slavZhuk/httpCRUD/data"
+	"github.com/gorilla/mux"
 )
 
+// UpdateCar...
 func UpdateCar(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%v %v %v\n", r.RemoteAddr, r.Method, r.URL)
 	var car data.Car
@@ -30,6 +32,5 @@ func UpdateCar(w http.ResponseWriter, r *http.Request) {
 	} else {
 		fmt.Fprintf(w, "(JSON) ID %v UPDATED!", id)
 	}
-
 
 }

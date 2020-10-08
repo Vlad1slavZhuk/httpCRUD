@@ -3,11 +3,12 @@ package controller
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/Vlad1slavZhuk/httpCRUD/data"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/Vlad1slavZhuk/httpCRUD/data"
+	"github.com/gorilla/mux"
 )
 
 func GetListCars(w http.ResponseWriter, r *http.Request) {

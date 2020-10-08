@@ -1,11 +1,12 @@
 package main
 
 import (
+	"net/http"
+	"os"
+
 	handler "github.com/Vlad1slavZhuk/httpCRUD/controller"
 	server "github.com/Vlad1slavZhuk/httpCRUD/data"
 	"github.com/gorilla/mux"
-	"net/http"
-	"os"
 )
 
 var port string
@@ -34,8 +35,8 @@ func main() {
 	r.HandleFunc("/cars/{id:[0-9]+}", handler.DeleteCar).Methods(http.MethodDelete)
 
 	// Create a new server
-	s := server.NewServer(r,":"+port)
+	s := server.NewServer(r, ":"+port)
 
 	// Start server
-	go server.Run(s)
+	server.Run(s)
 }
