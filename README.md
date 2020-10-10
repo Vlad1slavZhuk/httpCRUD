@@ -38,12 +38,14 @@ Redirect to `http://localhost:[port]/`.
 ### Request `POST`:
 Retrieves data from forms or JSON and creates a new car sale ad.  
 
-`FORM`:  
+`FORM`:
+
 ![demo 1](img/1.png)  
 #### **Response:**
 In case of success - `(POST) SUCCESS! Added new car sale announcement.`
 
-`JSON`:  
+`JSON`:
+
 **Body:**
 ```json5
 {
