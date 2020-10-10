@@ -42,7 +42,11 @@ Retrieves data from forms or JSON and creates a new car sale ad.
 
 ![demo 1](img/1.png)  
 #### **Response:**
-In case of success - `(POST) SUCCESS! Added new car sale announcement.`
+
+In case of success  
+```
+(POST) SUCCESS! Added new car sale announcement.
+```
 
 `JSON`:
 
