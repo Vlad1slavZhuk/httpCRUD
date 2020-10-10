@@ -10,6 +10,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// DeleteCar - Removes ad by ID. After deletion, sorts the ID of the rest of the ad.
 func DeleteCar(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%v %v %v\n", r.RemoteAddr, r.Method, r.URL)
 	vars := mux.Vars(r)

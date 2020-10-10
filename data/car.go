@@ -57,7 +57,7 @@ func GetListCars() []*Car {
 
 // GetCar - returns the specified number from the cars list.
 //
-// If ok - return car[id], true. Otherwise - return nil, false
+// If ok - return car, true. Otherwise - return nil, false
 func GetCar(id uint) (*Car, bool) {
 	rwm.Lock()
 	defer rwm.Unlock()
@@ -84,6 +84,7 @@ func AddCar(car *Car) bool {
 	if car.Brand == "" || car.Model == "" || car.Color == "" || car.Price == 0.0 {
 		return false
 	}
+
 	car.ID = lastID
 	cars = append(cars, car)
 	return true

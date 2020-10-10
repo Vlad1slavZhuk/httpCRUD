@@ -11,6 +11,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// GetListCars - Receives all ads for car sales.
 func GetListCars(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%v %v %v\n", r.RemoteAddr, r.Method, r.URL)
 	w.Header().Set("Content-Type", "application/json")
@@ -25,6 +26,7 @@ func GetListCars(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// GetCar - Receives an ad for the sale of a car by ID
 func GetCar(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%v %v %v\n", r.RemoteAddr, r.Method, r.URL)
 	vars := mux.Vars(r)
