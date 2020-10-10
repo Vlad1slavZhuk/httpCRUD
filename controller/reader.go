@@ -34,13 +34,13 @@ func GetCar(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
-	if car, ok := data.GetCar(id); ok {
+	if car, ok := data.GetCar(uint(id)); ok {
 		c, err := json.MarshalIndent(car, "", "   ")
 		if err != nil {
 			log.Fatal(err)
 		}
 		fmt.Fprint(w, string(c))
 	} else {
-		http.Error(w, "Not Found.", http.StatusBadRequest)
+		http.Error(w, "Not Found.", http.StatusNotFound)
 	}
 }

@@ -38,7 +38,6 @@ func Run(s *http.Server) {
 func Shutdown(s *http.Server) {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
-	signal.Notify(c, os.Kill)
 
 	// Block until a signal is received.
 	sig := <-c

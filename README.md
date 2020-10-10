@@ -1,15 +1,24 @@
 # httpCRUD - Task 2
 
-This web server handles requests (GET, POST, PUT, DELETE) to the routing API.
+The service contains a database of advertisements for the sale of cars and information about them (`ID`, `Brand`, `Model`, `Color`, `Price`).
 
-## How to start HTTP server:  
-### Makefile:  
+**Adress:**  
+`http://localhost:[port]/` (`GET`)  
+`http://localhost:[port]/car` (`GET`, `POST`)  
+`http://localhost:[port]/cars` (`GET`)  
+`http://localhost:[port]/cars/{id:[0-9]+}` (`GET`)  
+`http://localhost:[port]/cars/{id:[0-9]+}` (`PUT`)  
+`http://localhost:[port]/cars/{id:[0-9]+}` (`DELETE`)
+
+## How to start HTTP server:
+### `Linux` / `Mac OS`:
+**Simple commands:**    
 `make help` - Show list commands.  
 `make build` - Create `server.exe`.  
 `make start` - Create and Run `server.exe`. (dependence `build`)  
 `make clean` - Remove `server.exe`.  
 
-**Docker**  
+**Docker:**  
 `make docker` -  Build and Run image `server` (dependence `docker-build`, `docker-up`)  
 `make docker-build` - Build image with name `server`.  
 `make docker-up` - Start image `server`.  
@@ -17,20 +26,25 @@ This web server handles requests (GET, POST, PUT, DELETE) to the routing API.
 
 ---
 
-#### `http://localhost:[port]/`  
-Load page `add.html` that is in the folder `template`.
+## `/`  
+Load page `add.html` that is in the folder `template`. After filling out the form and pressing the button, there will be a new `POST` request by address `/car`.  
 
 ---
-#### `http://localhost:[port]/car` (GET, POST)
-Loads the page of form `add.html`. After filling out the form, add to the list of cars.
-##### Request `GET`:
-Redirect to `http://localhost:[port]/`  
-##### Request `POST`:
-Receives data from forms and from JSON and creates a new car sale ad.  
+## `/car` (GET, POST)
+
+### Request `GET`:
+Redirect to `http://localhost:[port]/`.  
+
+### Request `POST`:
+Retrieves data from forms or JSON and creates a new car sale ad.  
+
 `FORM`:  
-Filing form and press button "Create and add a new car".  
+![demo 1](img/1.png)  
+#### **Response:**
+In case of success - `(POST) SUCCESS! Added new car sale announcement.`
+
 `JSON`:  
-In app `Postman` in tab `Body`, press `raw` and write data in `JSON` format. After filing send request `POST`.
+**Body:**
 ```json5
 {
     "brand": "Mustang Shelby",
@@ -39,48 +53,62 @@ In app `Postman` in tab `Body`, press `raw` and write data in `JSON` format. Aft
     "price": 120000
 }
 ```
+**Endpoint:** `http://localhost:8081/car`
+
+#### **Response:**
+In case of success.
+
+```
+(JSON) SUCCESS! Added new car sale announcement.
+```
+
 ---
-#### `http://localhost:[port]/cars` (GET)  
+### `/cars` (GET)  
 Return in `JSON` format list cars. In my example:
 
-`http://localhost:8081/cars`
+**Endpoint:** `http://localhost:8081/cars`
+
+#### Response:
 ```json5
-{
-   "1": {
-      "brand": "Mazda",
-      "model": "CX-5",
-      "color": "Aqua",
-      "price": 25000
-   },
-   "2": {
-      "brand": "Aston Martin",
-      "model": "One 77",
-      "color": "Space Grey",
-      "price": 80000.5
-   }
-}
+[
+    {
+        "id": 1,
+        "brand": "Mazda",
+        "model": "CX-5",
+        "color": "Aqua",
+        "price": 25000
+    },
+    {
+        "id": 2,
+        "brand": "Aston Martin",
+        "model": "One 77",
+        "color": "Space Grey",
+        "price": 80000.5
+    }
+]
 ```
 ---
-#### `http://localhost:[port]/cars/{id:[0-9]+}` (GET)
+### `/cars/{id:[0-9]+}` (GET)
 Return in `JSON` format found car. In my example:  
 
-`http://localhost:8081/cars/1`
+**Endpoint:** `http://localhost:8081/cars/1`
+
+#### Response:
 ```json5
 {
-   "brand": "Mazda",
-   "model": "CX-5",
-   "color": "Aqua",
-   "price": 25000
+    "id": 1,
+    "brand": "Mazda",
+    "model": "CX-5",
+    "color": "Aqua",
+    "price": 25000
 }
 ```
 ---
-#### `http://localhost:[port]/cars/{id:[0-9]+}` (PUT)
-Updates vehicle data.  
+### `/cars/{id:[0-9]+}` (PUT)
+Updates the data of the car sale. In my Example: 
 
-`JSON`:  
-In app `Postman` in tab `Body`, press `raw` and write data in `JSON` format. After filing send request `PUT`.
-
-`localhost:8081/cars/1`
+**Endpoint:** `localhost:8081/cars/1`  
+**Body:** 
 ```json5
 {
     "brand": "Subaru",
@@ -88,37 +116,22 @@ In app `Postman` in tab `Body`, press `raw` and write data in `JSON` format. Aft
     "color": "Blue",
     "price": 45000.82
 }
-```
-We updated data:
-```json5
-{
-    "1": {
-        "brand": "Subaru",
-        "model": "Forester",
-        "color": "Blue",
-        "price": 45000.82
-    },
-    "2": {
-        "brand": "Aston Martin",
-        "model": "One 77",
-        "color": "Space Grey",
-        "price": 80000.5
-    }
-}
-```
----
-#### `http://localhost:[port]/cars/{id:[0-9]+}` (DELETE)
-Removes a car from the list by `ID`. In my Example.
+```  
 
-`http://localhost:8081/cars/1`  
-We delete `ID`= 1. After request `DELETE` we see such a list: 
-```json5
-{
-    "2": {
-        "brand": "Aston Martin",
-        "model": "One 77",
-        "color": "Space Grey",
-        "price": 80000.5
-    }
-}
+#### Response:
+In case of success:
+```
+(JSON) ID 1 UPDATED!
+```
+
+---
+#### `/cars/{id:[0-9]+}` (DELETE)
+Removes ad by `ID`. In my Example:
+
+**Endpoint:** `http://localhost:8081/cars/1`  
+
+#### Response:
+In case of success:
+```
+(JSON) SUCCESS! Deleted ID = 1
 ```

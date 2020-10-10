@@ -27,7 +27,7 @@ func UpdateCar(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if ok := data.UpdateCar(id, &car); !ok {
+	if ok := data.UpdateCar(uint(id), &car); !ok {
 		http.Error(w, "Data update error.", http.StatusBadRequest)
 	} else {
 		fmt.Fprintf(w, "(JSON) ID %v UPDATED!", id)

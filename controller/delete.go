@@ -18,7 +18,7 @@ func DeleteCar(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error in ParseUint.", http.StatusInternalServerError)
 	}
 
-	if ok := data.DeleteCar(id); !ok {
+	if ok := data.DeleteCar(uint(id)); !ok {
 		http.Error(w, "Not found or was deleted.", http.StatusNotFound)
 	} else {
 		fmt.Fprintf(w, "(JSON) SUCCESS! Deleted ID = %v", id)

@@ -7,6 +7,7 @@ import (
 )
 
 type Car struct {
+	ID    uint    `json:"id"`
 	Brand string  `json:"brand"`
 	Model string  `json:"model"`
 	Color string  `json:"color"`
@@ -15,21 +16,24 @@ type Car struct {
 
 //For Test - add 2 car.
 var (
-	cars = map[uint64]*Car{
-		1: {
+	cars = []*Car{
+		&Car{
+			ID:    1,
 			Brand: "Mazda",
 			Model: "CX-5",
 			Color: "Aqua",
 			Price: 25000.00,
 		},
-		2: {
+		&Car{
+			ID:    2,
 			Brand: "Aston Martin",
 			Model: "One 77",
 			Color: "Space Grey",
 			Price: 80000.50,
 		},
 	}
-	rwm sync.Mutex
+	rwm    sync.Mutex
+	lastID uint = 3
 )
 
 // ToJSON serializes.
@@ -45,7 +49,7 @@ func (c *Car) FromJSON(r io.Reader) error {
 }
 
 // GetListCars return list cars.
-func GetListCars() map[uint64]*Car {
+func GetListCars() []*Car {
 	rwm.Lock()
 	defer rwm.Unlock()
 	return cars
@@ -54,11 +58,13 @@ func GetListCars() map[uint64]*Car {
 // GetCar - returns the specified number from the cars list.
 //
 // If ok - return car[id], true. Otherwise - return nil, false
-func GetCar(id uint64) (*Car, bool) {
+func GetCar(id uint) (*Car, bool) {
 	rwm.Lock()
 	defer rwm.Unlock()
-	if _, ok := cars[id]; ok {
-		return cars[id], true
+	for _, car := range cars {
+		if car.ID == id {
+			return car, true
+		}
 	}
 	return nil, false
 }
@@ -69,36 +75,75 @@ func GetCar(id uint64) (*Car, bool) {
 func AddCar(car *Car) bool {
 	rwm.Lock()
 	defer rwm.Unlock()
-	lastID := uint64(len(cars) + 1)
+	if len(cars) > 0 {
+		lastID = cars[len(cars)-1].ID + 1
+	} else {
+		lastID = 1
+	}
 
 	if car.Brand == "" || car.Model == "" || car.Color == "" || car.Price == 0.0 {
 		return false
 	}
-
-	cars[lastID] = car
+	car.ID = lastID
+	cars = append(cars, car)
 	return true
 }
 
 // DeleteCar - deletes car by ID
-func DeleteCar(id uint64) bool {
+func DeleteCar(id uint) bool {
 	rwm.Lock()
 	defer rwm.Unlock()
-	if _, ok := cars[id]; !ok {
+	isFind := false
+	for i, car := range cars {
+		if car.ID == id {
+			if i == len(cars)-1 {
+				cars[i] = nil
+				cars = cars[:i]
+			} else {
+				cars = append(cars[:i], cars[i+1:]...)
+			}
+			isFind = true
+			break
+		}
+	}
+
+	if !isFind {
 		return false
 	}
-	delete(cars, id)
+
+	var index uint = 1
+	for _, car := range cars {
+		if car.ID != index {
+			car.ID = index
+			index++
+		} else {
+			index++
+		}
+	}
+
 	return true
 }
 
 // UpdateCar - update car by ID
-func UpdateCar(id uint64, c *Car) bool {
+func UpdateCar(id uint, c *Car) bool {
 	rwm.Lock()
 	defer rwm.Unlock()
-	_, ok := cars[id]
-	if !ok {
-		return false
+	for _, car := range cars {
+		if car.ID == id {
+			if len(c.Brand) != 0 || c.Brand != "" {
+				car.Brand = c.Brand
+			}
+			if len(c.Model) != 0 || c.Model != "" {
+				car.Model = c.Model
+			}
+			if len(c.Color) != 0 || c.Color != "" {
+				car.Color = c.Color
+			}
+			if c.Price >= 1000.00 {
+				car.Price = c.Price
+			}
+			return true
+		}
 	}
-
-	cars[id] = c
-	return true
+	return false
 }

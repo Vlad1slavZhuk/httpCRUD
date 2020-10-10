@@ -36,7 +36,6 @@ func main() {
 
 	// Create a new server
 	s := server.NewServer(r, ":"+port)
-
 	// Start server
 	server.Run(s)
 }
