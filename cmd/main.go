@@ -26,13 +26,13 @@ func main() {
 	r.HandleFunc("/", handler.FormAdd)
 	//GET
 	r.HandleFunc("/cars", handler.GetListCars).Methods(http.MethodGet)
-	r.HandleFunc("/cars/{id:[0-9]+}", handler.GetCar).Methods(http.MethodGet)
+	r.HandleFunc("/cars/{id:[1-9]\\d*}", handler.GetCar).Methods(http.MethodGet)
 	//POST
 	r.HandleFunc("/car", handler.CreateCar).Methods(http.MethodPost, http.MethodGet)
 	//PUT
-	r.HandleFunc("/cars/{id:[0-9]+}", handler.UpdateCar).Methods(http.MethodPut)
+	r.HandleFunc("/cars/{id:[1-9]\\d*}", handler.UpdateCar).Methods(http.MethodPut)
 	//DELETE
-	r.HandleFunc("/cars/{id:[0-9]+}", handler.DeleteCar).Methods(http.MethodDelete)
+	r.HandleFunc("/cars/{id:[1-9]\\d*}", handler.DeleteCar).Methods(http.MethodDelete)
 
 	// Create a new server
 	s := server.NewServer(r, ":"+port)
