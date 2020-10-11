@@ -18,16 +18,19 @@ func UpdateCar(w http.ResponseWriter, r *http.Request) {
 
 	id, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
+		log.Printf("[ERROR] %v %v %v\n", r.RemoteAddr, r.Method, r.URL)
 		http.Error(w, "ID parsing error.", http.StatusBadRequest)
 		return
 	}
 
 	if err := car.FromJSON(r.Body); err != nil {
+		log.Printf("[ERROR] %v %v %v\n", r.RemoteAddr, r.Method, r.URL)
 		http.Error(w, "Error retrieving data from JSON.", http.StatusBadRequest)
 		return
 	}
 
 	if ok := data.UpdateCar(uint(id), &car); !ok {
+		log.Printf("[ERROR] %v %v %v\n", r.RemoteAddr, r.Method, r.URL)
 		http.Error(w, "Data update error.", http.StatusBadRequest)
 	} else {
 		fmt.Fprintf(w, "(JSON) ID %v UPDATED!", id)

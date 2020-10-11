@@ -38,12 +38,17 @@ func CreateCar(w http.ResponseWriter, r *http.Request) {
 			brand := r.FormValue("brand")
 			m := r.FormValue("model")
 			color := r.FormValue("color")
-			price, _ := strconv.ParseFloat(r.FormValue("price"), 64)
+			price, err := strconv.ParseFloat(r.FormValue("price"), 32)
+			if err != nil {
+				log.Printf("[ERROR] %v %v %v\n", r.RemoteAddr, r.Method, r.URL)
+				http.Error(w, "Incorrect numbers.", http.StatusBadRequest)
+				return
+			}
 			car = data.Car{
 				Brand: brand,
 				Model: m,
 				Color: color,
-				Price: price,
+				Price: float32(price),
 			}
 			if ok := data.AddCar(&car); !ok {
 				log.Printf("[ERROR] %v %v %v\n", r.RemoteAddr, r.Method, r.URL)

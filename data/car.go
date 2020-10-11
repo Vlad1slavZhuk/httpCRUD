@@ -11,7 +11,7 @@ type Car struct {
 	Brand string  `json:"brand"`
 	Model string  `json:"model"`
 	Color string  `json:"color"`
-	Price float64 `json:"price"`
+	Price float32 `json:"price"`
 }
 
 //For Test - add 2 car.
