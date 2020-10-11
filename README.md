@@ -131,7 +131,7 @@ In case of success:
 ```
 
 ---
-#### `/cars/{id:[0-9]+}` (DELETE)
+### `/cars/{id:[0-9]+}` (DELETE)
 Removes ad by `ID`. In my Example:
 
 **Endpoint:** `http://localhost:8081/cars/1`  
