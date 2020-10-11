@@ -4,19 +4,20 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/Vlad1slavZhuk/httpCRUD/data"
 )
 
-/*var port string
+var port string
 
 func init() {
 	port = os.Getenv("PORT")
 	if port == "" {
 		panic("Set port!")
 	}
-}*/
+}
 
 // FormAdd - Load page add.html
 func FormAdd(w http.ResponseWriter, r *http.Request) {
@@ -28,7 +29,7 @@ func FormAdd(w http.ResponseWriter, r *http.Request) {
 func CreateCar(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%v %v %v\n", r.RemoteAddr, r.Method, r.URL)
 	if r.Method == http.MethodGet {
-		http.Redirect(w, r, "http://localhost:8081/", http.StatusMovedPermanently)
+		http.Redirect(w, r, "http://localhost:"+port+"/", http.StatusMovedPermanently)
 	}
 
 	var car data.Car
